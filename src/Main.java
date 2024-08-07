@@ -1,18 +1,23 @@
-import java.io.IOException;
+import java.util.Arrays;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws IOException {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.print("First number: ");
-        String firstNumber = System.console().readLine();
-        System.out.print("Second number: ");
-        String secondNumber = System.console().readLine();
+    public static void main(String[] args) {
+        start();
+    }
+
+    public static void start() {
+        System.out.print("addition: ");
+        String operation = System.console().readLine();
+        String[] input = operation.split("\\+");
+        int[] numbers = new int[input.length];
+
+
+        for (int i = 0; i < input.length; i++) {
+            numbers[i] = Integer.parseInt(input[i].strip());
+        }
 
         try {
-            System.out.println(Calculator.add(Integer.parseInt(firstNumber), Integer.parseInt(secondNumber)));
+            System.out.println(Calculator.add(numbers));
         } catch (NumberFormatException e) {
             System.out.println("The given input cannot be converted to an integer.");
         }
