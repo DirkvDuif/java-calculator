@@ -1,7 +1,6 @@
 import calculator.Calculator;
 import parser.Parser;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 public class Main {
@@ -15,9 +14,7 @@ public class Main {
 
         Stack<Float> stack = new Stack<>();
 
-        String rpn = Parser.createReversePolishNotation(instruction);
-
-        System.out.println(rpn);
+        String rpn = Parser.createReversePolishNotation(instruction.replaceAll(" ", ""));
 
         String[] tokens = rpn.split(" ");
 
@@ -33,7 +30,7 @@ public class Main {
             }
         }
 
-        System.out.println(stack.pop());
+        System.out.println("answer: " + stack.pop());
 
     }
 

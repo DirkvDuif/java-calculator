@@ -39,9 +39,6 @@ public class Calculator {
             case "/", "*" -> {
                 return 2;
             }
-            case "(" -> {
-                return 4;
-            }
             default -> {
                 return 0;
             }
