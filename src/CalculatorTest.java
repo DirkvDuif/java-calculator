@@ -1,10 +1,12 @@
+import calculator.Calculator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
 
     @org.junit.jupiter.api.Test
     void add() {
-        assertEquals(3, Calculator.add(new int[] { 1, 2, 3 }));
+        assertEquals(6, Calculator.add(1, 5));
     }
 
     @org.junit.jupiter.api.Test

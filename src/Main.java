@@ -1,25 +1,76 @@
+import calculator.Calculator;
+import parser.Parser;
+
 import java.util.Arrays;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
-        start();
+        System.out.print("To calculate: ");
+        String operation = System.console().readLine();
+        calculate(operation);
     }
 
-    public static void start() {
-        System.out.print("addition: ");
-        String operation = System.console().readLine();
-        String[] input = operation.split("\\+");
-        int[] numbers = new int[input.length];
+    protected static void calculate(String instruction) {
 
+        Stack<Float> stack = new Stack<>();
 
-        for (int i = 0; i < input.length; i++) {
-            numbers[i] = Integer.parseInt(input[i].strip());
+        String rpn = Parser.createReversePolishNotation(instruction);
+
+        System.out.println(rpn);
+
+        String[] tokens = rpn.split(" ");
+
+        for (String token : tokens) {
+            if (isOperand(token)) {
+                float num2 = stack.pop();
+                float num1 = stack.pop();
+                float result = calculate(getOperation(token), num1, num2);
+
+                stack.push(result);
+            } else {
+                stack.push(Float.parseFloat(token));
+            }
         }
 
-        try {
-            System.out.println(Calculator.add(numbers));
-        } catch (NumberFormatException e) {
-            System.out.println("The given input cannot be converted to an integer.");
+        System.out.println(stack.pop());
+
+    }
+
+    protected static boolean isOperand(String token) {
+        return "*-/+".contains(token);
+    }
+
+    protected static float calculate(Operation operation, float num1, float num2) {
+        switch (operation) {
+            case ADD -> {
+                return Calculator.add(num1, num2);
+            }
+            case DIVIDE -> {
+                return Calculator.divide(num1, num2);
+            }
+            case SUBTRACT -> {
+                return Calculator.subtract(num1, num2);
+            }
+            case MULTIPLY -> {
+                return Calculator.multiply(num1, num2);
+            }
+
+            default -> throw new IllegalArgumentException("Invalid operation: " + operation);
         }
+    }
+
+    public static Operation getOperation(String operation) throws IllegalArgumentException {
+        return switch (operation) {
+            case "+" -> Operation.ADD;
+            case "-" -> Operation.SUBTRACT;
+            case "*" -> Operation.MULTIPLY;
+            case "/" -> Operation.DIVIDE;
+            default -> throw new IllegalArgumentException("Invalid operation: " + operation);
+        };
+    }
+
+    public enum Operation {
+        ADD, SUBTRACT, MULTIPLY, DIVIDE
     }
 }
